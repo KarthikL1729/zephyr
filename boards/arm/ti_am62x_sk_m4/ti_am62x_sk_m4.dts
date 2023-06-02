@@ -1,0 +1,25 @@
+/*
+ * Copyright (c) 2023 Texas Instruments Incorporated
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <ti/am62x_sk_m4.dtsi>
+
+/ {
+	model = "TI AM62X SK EVALUATION BOARD";
+	compatible = "ti,ti_am62x_sk_m4";
+
+	chosen {
+		zephyr,sram = &sram0;
+	};
+
+	cpus {
+		cpu@0 {
+			status = "okay";
+			clock-frequency = <400000000>;
+		};
+	};
+};
