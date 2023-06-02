@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) 2023 L Lakshmanan
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <ti/am62x_sk_m4.dtsi>
+
+/ {
+	model = "TI AM62X SK EVALUATION BOARD";
+	compatible = "ti,ti_am62x_sk_m4";
+
+	chosen {
+		zephyr,sram = &dram0;
+	};
+
+	cpus {
+		cpu@0 {
+			status = "okay";
+			clock-frequency = <400000000>;
+		};
+	};
+
+	dram0: memory@82000000 {
+		reg = <0x82000000 DT_SIZE_M(1)>;
+	};
+};
