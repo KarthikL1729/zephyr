@@ -7,3 +7,10 @@ config PINCTRL_TI_K3
 	depends on DT_HAS_TI_K3_PINCTRL_ENABLED
 	help
 	  Enable the TI K3 pinctrl driver
+
+config RAT_TI_K3_M4
+	bool "Region based Address Translation Module"
+	default n
+	depends on SOC_SERIES_AM62X_M4
+	help 
+	  Enable the RAT module for TI K3 SoCs that require it for address translation

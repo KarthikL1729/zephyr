@@ -9,10 +9,12 @@
 #include <zephyr/device.h>
 #include <zephyr/init.h>
 #include <soc.h>
+#include <pinctrl_soc.h>
 
-static int am62x_m4_init(void)
+int am62x_m4_init(void)
 {
 	NMI_INIT();
+	RAT_init();
 	return 0;
 }
 
