@@ -59,7 +59,7 @@ void address_trans_init(address_trans_Params *params)
     {
         __ASSERT(gAddrTranslateConfig.ratBaseAddr!=0, "RATBase test");
         __ASSERT(gAddrTranslateConfig.regionConfig!=NULL, "Region test");
-
+    
         /* enable regions setup by user */
         address_trans_setRegion(
             gAddrTranslateConfig.ratBaseAddr,

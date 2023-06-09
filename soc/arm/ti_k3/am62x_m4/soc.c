@@ -18,4 +18,4 @@ int am62x_m4_init(void)
 	return 0;
 }
 
-SYS_INIT(am62x_m4_init, PRE_KERNEL_1, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT);
+SYS_INIT(am62x_m4_init, PRE_KERNEL_1, 0);

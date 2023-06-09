@@ -47,12 +47,12 @@
 	uart0: serial@4a00000 {
 		compatible = "ns16550";
 		reg = <0x04a00000 0x100>;
-		interrupts = <15 0>;
+		interrupts = <7 0>;
 		interrupt-parent = <&nvic>;
 		clock-frequency = <48000000>;
 		current-speed = <115200>;
 		reg-shift = <2>;
-		status = "disabled";
+		status = "okay";
 	};
 
 };
