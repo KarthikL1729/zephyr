@@ -7,19 +7,13 @@ extern "C" {
 
 #include <stdint.h>
 
-/**
- * \defgroup KERNEL_DPL_ADDR_TRANSLATE APIs for Region based address translation (RAT) module
- * \ingroup KERNEL_DPL
- *
- * For more details and example usage, see \ref KERNEL_DPL_ADDR_TRANSLATE_PAGE
- *
- * @{
- */
-
-/**
- * \brief Maximum regions in the address translate module
- */
-#define address_trans_MAX_REGIONS      (16u)
+#define address_trans_MAX_REGIONS       (16u)
+#define ADDR_TRANSLATE_RAT_BASE_ADDR    (0x044200000u)
+#define ADDR_TRANSLATE_REGIONS          (4u)
+#define RAT_CTRL(baseAddr, i)       (volatile uint32_t*)(baseAddr + 0x20 + 0x10*(i))
+#define RAT_BASE(baseAddr, i)       (volatile uint32_t*)(baseAddr + 0x24 + 0x10*(i))
+#define RAT_TRANS_L(baseAddr, i)    (volatile uint32_t*)(baseAddr + 0x28 + 0x10*(i))
+#define RAT_TRANS_H(baseAddr, i)    (volatile uint32_t*)(baseAddr + 0x2C + 0x10*(i))
 
 /**
  * \brief Enum's to represent different possible region size for the address translate module
@@ -61,7 +55,7 @@ typedef enum address_trans_RegionSize_e {
 } address_trans_RegionSize;
 
 /**
- * \brief Region config structure, this is used by SysConfig and not to be used by end-users directly
+ * \brief Region config structure
  */
 typedef struct address_trans_RegionConfig_ {
 
@@ -72,7 +66,7 @@ typedef struct address_trans_RegionConfig_ {
 } address_trans_RegionConfig;
 
 /**
- * \brief Parameters for \ref address_trans_init, this is used by SysConfig and not to be used by end-users directly
+ * \brief Parameters for \ref address_trans_init
  */
 typedef struct address_trans_Params_s {
 
@@ -91,11 +85,6 @@ typedef struct address_trans_Params_s {
  */
 void address_trans_Params_init(address_trans_Params *params);
 
-/**
- * \brief Initialize Address translate sub-system, called by SysConfig, not to be called by end users
- *
- * \param   params  [in] Initialization parameters
- */
 void address_trans_init(address_trans_Params *params);
 
 /**
@@ -122,4 +111,4 @@ void *address_trans_getLocalAddr(uint64_t systemAddr);
 #define NULL            (0)
 #endif
 
-#endif /* ADDR_TRANSLATEP_H */
+#endif /* ADDRESS_TRANS_H */

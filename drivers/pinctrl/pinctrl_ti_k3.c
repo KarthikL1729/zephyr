@@ -46,21 +46,21 @@ int pinctrl_configure_pins(const pinctrl_soc_pin_t *pins, uint8_t pin_cnt, uintp
 	baseAddr = (uint32_t) address_trans_getLocalAddr(virt_reg_base);
 	/* Lock 0 */
     kickAddr = (volatile uint32_t *)(baseAddr + CSL_MCU_PADCONFIG_LOCK0_KICK0_OFFSET);
-    sys_write32(KICK0_UNLOCK_VAL, (uint32_t) kickAddr);   /* KICK 0 */
+    sys_write32(KICK0_UNLOCK_VAL, (uintptr_t) kickAddr);   /* KICK 0 */
     kickAddr++;
-	sys_write32(KICK1_UNLOCK_VAL, (uint32_t) kickAddr);   /* KICK 1 */
+	sys_write32(KICK1_UNLOCK_VAL, (uintptr_t) kickAddr);   /* KICK 1 */
 
     /* Lock 1 */
     kickAddr = (volatile uint32_t *)(baseAddr + CSL_MCU_PADCONFIG_LOCK1_KICK0_OFFSET);
-    sys_write32(KICK0_UNLOCK_VAL, (uint32_t) kickAddr);   /* KICK 0 */
+    sys_write32(KICK0_UNLOCK_VAL, (uintptr_t) kickAddr);   /* KICK 0 */
     kickAddr++;
-    sys_write32(KICK1_UNLOCK_VAL, (uint32_t) kickAddr);   /* KICK 1 */
+    sys_write32(KICK1_UNLOCK_VAL, (uintptr_t) kickAddr);   /* KICK 1 */
 
 	/* Writing with address translation */
 
 	baseAddr = (uint32_t) address_trans_getLocalAddr((uint32_t) virt_reg_base + PADCFG_PMUX_OFFSET);
 	for (uint8_t i = 0; i < pin_cnt; i++) {
-		sys_write32(pins[i].value, (uint32_t) address_trans_getLocalAddr(baseAddr + pins[i].offset));
+		sys_write32(pins[i].value, (uintptr_t) (baseAddr + pins[i].offset));
 	}
 
 	#else

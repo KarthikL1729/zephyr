@@ -1,14 +1,6 @@
 #include <address_trans.h>
 #include <zephyr/sys/__assert.h>
 
-#define RAT_CTRL(baseAddr, i)       (volatile uint32_t*)(baseAddr + 0x20 + 0x10*(i))
-#define RAT_BASE(baseAddr, i)       (volatile uint32_t*)(baseAddr + 0x24 + 0x10*(i))
-#define RAT_TRANS_L(baseAddr, i)    (volatile uint32_t*)(baseAddr + 0x28 + 0x10*(i))
-#define RAT_TRANS_H(baseAddr, i)    (volatile uint32_t*)(baseAddr + 0x2C + 0x10*(i))
-
-#define CONFIG_ADDR_TRANSLATE_RAT_BASE_ADDR  (0x044200000u)
-#define CONFIG_ADDR_TRANSLATE_REGIONS  (4u)
-
 address_trans_Params gAddrTranslateConfig = {
     .numRegions = 0,
     .ratBaseAddr = 0,
@@ -53,12 +45,12 @@ void address_trans_init(address_trans_Params *params)
         gAddrTranslateConfig = *params;
     }
 
-    __ASSERT(gAddrTranslateConfig.numRegions<address_trans_MAX_REGIONS, "init test");
+    __ASSERT(gAddrTranslateConfig.numRegions<address_trans_MAX_REGIONS, "Exceeding maximum number of regions");
 
     for(i=0; i<gAddrTranslateConfig.numRegions; i++)
     {
-        __ASSERT(gAddrTranslateConfig.ratBaseAddr!=0, "RATBase test");
-        __ASSERT(gAddrTranslateConfig.regionConfig!=NULL, "Region test");
+        __ASSERT(gAddrTranslateConfig.ratBaseAddr!=0, "RAT base address cannot be 0");
+        __ASSERT(gAddrTranslateConfig.regionConfig!=NULL, "RAT region config cannot be NULL");
     
         /* enable regions setup by user */
         address_trans_setRegion(
@@ -77,7 +69,7 @@ void *address_trans_getLocalAddr(uint64_t systemAddr)
     uint32_t found, regionId;
     void *localAddr;
 
-    __ASSERT(gAddrTranslateConfig.numRegions<address_trans_MAX_REGIONS, "getlocaladdr test");
+    __ASSERT(gAddrTranslateConfig.numRegions<address_trans_MAX_REGIONS, "Exceeding maximum number of regions");
 
     found = 0;
     uint32_t x = gAddrTranslateConfig.numRegions;
