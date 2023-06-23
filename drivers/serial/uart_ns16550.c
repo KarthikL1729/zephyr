@@ -436,7 +436,7 @@ static inline uintptr_t get_port(const struct device *dev)
 	{
 #endif
 		port = DEVICE_MMIO_GET(dev);
-		port = address_trans_getLocalAddr(port);
+		//port = address_trans_getLocalAddr(port);
 	}
 
 	return port;
@@ -653,16 +653,16 @@ static int uart_ns16550_config_get(const struct device *dev,
 static int uart_ns16550_init(const struct device *dev)
 {
 	struct uart_ns16550_dev_data *data = dev->data;
-	#ifdef CONFIG_RAT_TI_K3_M4
-	struct uart_ns16550_device_config *temp_cfg = dev->config;
-	uint32_t ad1, ad2;
-	ad1 = temp_cfg->port;
-	temp_cfg->port = address_trans_getLocalAddr(temp_cfg->port);
-	ad2 = temp_cfg->port;
-	const struct uart_ns16550_device_config *dev_cfg = temp_cfg;
-	#else
+	//#ifdef CONFIG_RAT_TI_K3_M4
+	//struct uart_ns16550_device_config *temp_cfg = dev->config;
+	//uint32_t ad1, ad2;
+	//ad1 = temp_cfg->port;
+	//temp_cfg->port = address_trans_getLocalAddr(temp_cfg->port);
+	//ad2 = temp_cfg->port;
+	//const struct uart_ns16550_device_config *dev_cfg = temp_cfg;
+	//#else
 	const struct uart_ns16550_device_config *dev_cfg = dev->config;
-	#endif
+	//#endif
 
 	int ret;
 

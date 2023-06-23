@@ -33,9 +33,11 @@
  * If we have PCIE enabled, this does mean that non-PCIE drivers may waste
  * a bit of RAM, but systems with PCI express are not RAM constrained.
  */
-#if defined(CONFIG_MMU) || defined(CONFIG_PCIE)
+#if defined(CONFIG_MMU) || defined(CONFIG_PCIE) || defined (CONFIG_RAT_TI_K3_M4)
 #define DEVICE_MMIO_IS_IN_RAM
 #endif
+
+#include "/home/lakshmanan/zephyrproject/zephyr/drivers/rat/rat_am62x_m4.h"
 
 #ifndef _ASMLANGUAGE
 #include <stdint.h>
@@ -102,7 +104,11 @@ static inline void device_map(mm_reg_t *virt_addr, uintptr_t phys_addr,
 	ARG_UNUSED(size);
 	ARG_UNUSED(flags);
 
+#ifdef CONFIG_RAT_TI_K3_M4
+	*virt_addr = (mm_reg_t *) rat_get_local_addr((uint64_t) phys_addr);
+#else
 	*virt_addr = phys_addr;
+#endif
 #endif /* CONFIG_MMU */
 }
 #else
