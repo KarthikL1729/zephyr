@@ -1,0 +1,10 @@
+# Region Address Translation configuration options
+#
+# Copyright (c) 2023 Texas Instruments Incorporated
+# Copyright (c) 2023 L Lakshmanan
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig REGION_ADDRESS_TRANSLATION
+	bool "Region Address Translation (RAT) support"
+	help
+	  This option enables RAT support.

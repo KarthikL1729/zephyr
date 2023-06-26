@@ -10,9 +10,40 @@
 #include <zephyr/init.h>
 #include <soc.h>
 
+#define ADDR_TRANSLATE_RAT_BASE_ADDR		(0x044200000u)
+#define ADDR_TRANSLATE_REGIONS			(4u)
+
+address_trans_region_config region_config[ADDR_TRANSLATE_REGIONS] = {
+	{
+		.system_addr = 0x0u,
+		.local_addr = 0x80000000u,
+		.size = address_trans_region_size_512M,
+	},
+	{
+		.local_addr = 0xA0000000u,
+		.system_addr = 0x20000000u,
+		.size = address_trans_region_size_512M,
+	},
+	{
+		.local_addr = 0xC0000000u,
+		.system_addr = 0x40000000u,
+		.size = address_trans_region_size_512M,
+	},
+	{
+		.local_addr = 0x60000000u,
+		.system_addr = 0x60000000u,
+		.size = address_trans_region_size_512M,
+	},
+
+/*
+ * Add regions here if you want to map more memory.
+ */
+};
+
 static int am62x_m4_init(void)
 {
 	NMI_INIT();
+	RAT_init(&region_config, ADDR_TRANSLATE_RAT_BASE_ADDR, ADDR_TRANSLATE_REGIONS);
 	return 0;
 }
 
