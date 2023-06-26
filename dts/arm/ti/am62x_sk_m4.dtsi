@@ -7,6 +7,7 @@
 #include <mem.h>
 #include <freq.h>
 #include <arm/armv7-m.dtsi>
+#include <zephyr/dt-bindings/pinctrl/ti-k3-pinctrl.h>
 
 / {
 
@@ -35,6 +36,12 @@
 		compatible = "fixed-clock";
 		clock-frequency = <400000000>;
 		#clock-cells = <0>;
+	};
+
+	pinctrl: pinctrl@4080000 {
+		compatible = "ti,k3-pinctrl";
+		reg = <0x04080000 0x8000>;
+		status = "okay";
 	};
 };
 
