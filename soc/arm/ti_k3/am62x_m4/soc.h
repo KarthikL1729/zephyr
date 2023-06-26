@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <address_trans.h>
-#include <RAT_module.h>
+#include <zephyr/drivers/rat/rat_am62x_m4.h>

@@ -38,10 +38,6 @@
 #include <zephyr/drivers/pinctrl.h>
 #endif
 
-#if defined(CONFIG_RAT_TI_K3_M4)
-#include <address_trans.h>
-#endif
-
 #include <zephyr/drivers/serial/uart_ns16550.h>
 
 #define INST_HAS_PCP_HELPER(inst) DT_INST_NODE_HAS_PROP(inst, pcp) ||

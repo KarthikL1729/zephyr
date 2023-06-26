@@ -37,7 +37,9 @@
 #define DEVICE_MMIO_IS_IN_RAM
 #endif
 
-#include "/home/lakshmanan/zephyrproject/zephyr/drivers/rat/rat_am62x_m4.h"
+#if defined (CONFIG_RAT_TI_K3_M4)
+#include <zephyr/drivers/rat/rat_am62x_m4.h>
+#endif
 
 #ifndef _ASMLANGUAGE
 #include <stdint.h>

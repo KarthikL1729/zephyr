@@ -11,7 +11,7 @@
 
 
 #ifdef CONFIG_RAT_TI_K3_M4
-#include <address_trans.h>
+
 #define KICK0_UNLOCK_VAL                        (0x68EF3490U)
 #define KICK1_UNLOCK_VAL                        (0xD172BC5AU)
 #define CSL_MCU_PADCONFIG_LOCK0_KICK0_OFFSET    (0x1008)
