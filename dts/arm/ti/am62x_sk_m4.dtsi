@@ -43,6 +43,15 @@
 		reg = <0x04080000 0x8000>;
 		status = "okay";
 	};
+
+	uart0: serial@4a00000 {
+		compatible = "ns16550";
+		reg = <0x04a00000 0x200>;
+		clock-frequency = <48000000>;
+		current-speed = <115200>;
+		reg-shift = <2>;
+		status = "okay";
+	};
 };
 
 &nvic {

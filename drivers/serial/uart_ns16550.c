@@ -69,6 +69,7 @@ BUILD_ASSERT(IS_ENABLED(CONFIG_PCIE), "NS16550(s) in DT need CONFIG_PCIE");
 #define REG_SCR 0x07  /* Scratchpad.			*/
 #define REG_DLF 0xC0  /* Divisor Latch Fraction         */
 #define REG_PCP 0x200 /* PRV_CLOCK_PARAMS (Apollo Lake) */
+#define REG_MDR1 0x08 /* Mode control reg. (TI K3)	*/
 
 /* equates for interrupt enable register */
 
@@ -99,6 +100,7 @@ BUILD_ASSERT(IS_ENABLED(CONFIG_PCIE), "NS16550(s) in DT need CONFIG_PCIE");
 
 #define PCP_UPDATE 0x80000000 /* update clock */
 #define PCP_EN 0x00000001     /* enable clock output */
+#define MDR1_UART_MODE 0x00000000 /* enable UART for TI AM62x */
 
 /*
  * Per PC16550D (Literature Number: SNLS378B):
@@ -225,6 +227,7 @@ BUILD_ASSERT(IS_ENABLED(CONFIG_PCIE), "NS16550(s) in DT need CONFIG_PCIE");
 #define LSR(dev) (get_port(dev) + REG_LSR * reg_interval(dev))
 #define MSR(dev) (get_port(dev) + REG_MSR * reg_interval(dev))
 #define SCR(dev) (get_port(dev) + REG_SCR * reg_interval(dev))
+#define MDR1(dev) (get_port(dev) + REG_MDR1 * reg_interval(dev))
 #define DLF(dev) (get_port(dev) + REG_DLF)
 #define PCP(dev) (get_port(dev) + REG_PCP)
 
@@ -478,6 +481,10 @@ static int uart_ns16550_configure(const struct device *dev,
 	if (dev_cfg->pincfg != NULL) {
 		pinctrl_apply_state(dev_cfg->pincfg, PINCTRL_STATE_DEFAULT);
 	}
+#endif
+
+#ifdef CONFIG_SOC_AM62x_M4
+	ns16550_outbyte(dev_cfg, MDR1(dev), MDR1_UART_MODE);
 #endif
 
 #ifdef CONFIG_UART_INTERRUPT_DRIVEN
