@@ -485,7 +485,7 @@ static int uart_ns16550_configure(const struct device *dev,
 	}
 #endif
 
-#ifdef CONFIG_RAT_TI_K3_M4
+#ifdef CONFIG_SOC_AM62x_M4
 	ns16550_outbyte(dev_cfg, MDR1(dev), MDR1_UART_MODE);
 #endif
 

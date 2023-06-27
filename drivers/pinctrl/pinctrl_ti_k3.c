@@ -10,7 +10,7 @@
 #include <zephyr/drivers/pinctrl.h>
 
 
-#ifdef CONFIG_RAT_TI_K3_M4
+#ifdef CONFIG_SOC_AM62x_M4
 
 #define KICK0_UNLOCK_VAL                        (0x68EF3490U)
 #define KICK1_UNLOCK_VAL                        (0xD172BC5AU)
@@ -38,7 +38,7 @@ int pinctrl_configure_pins(const pinctrl_soc_pin_t *pins, uint8_t pin_cnt, uintp
 	const struct device *dev = DEVICE_DT_GET(PINCTRL_NODE);
 	uintptr_t virt_reg_base = DEVICE_MMIO_GET(dev);
 
-	#ifdef CONFIG_RAT_TI_K3_M4
+	#ifdef CONFIG_SOC_AM62x_M4
 	/* Unlocking MMR */
 	uint32_t           			 baseAddr;
     volatile uint32_t  			*kickAddr;
