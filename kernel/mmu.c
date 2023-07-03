@@ -932,6 +932,16 @@ void z_mem_manage_boot_finish(void)
 #endif
 }
 
+#ifdef CONFIG_REGION_ADDRESS_TRANSLATION
+
+void * __weak z_get_local_addr((uint64_t) phys_addr)
+{
+	/* To be overridden by RAT functionality in drivers */
+	return (void *) phys_addr;
+}
+
+#endif /* CONFIG_REGION_ADDRESS_TRANSLATION */
+
 #ifdef CONFIG_DEMAND_PAGING
 
 #ifdef CONFIG_DEMAND_PAGING_STATS

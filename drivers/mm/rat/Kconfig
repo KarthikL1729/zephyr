@@ -8,3 +8,12 @@ menuconfig REGION_ADDRESS_TRANSLATION
 	bool "Region Address Translation (RAT) support"
 	help
 	  This option enables RAT support.
+
+if REGION_ADDRESS_TRANSLATION
+
+config TI_RAT
+	bool "Texas Instruments RAT module"
+	help
+	  Enables RAT support functions specific to TI SoCs.
+
+endif # REGION_ADDRESS_TRANSLATION

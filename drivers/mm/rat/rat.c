@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <zephyr/drivers/rat/rat.h>
+#include <zephyr/drivers/mm/rat/rat.h>
 #include <zephyr/sys/__assert.h>
 
 address_trans_params translate_config;
@@ -66,6 +66,11 @@ void RAT_init(void *region_config, uint64_t rat_base_addr, uint8_t translate_reg
 
 void RAT_deinit(void)
 {
+}
+
+void *z_get_local_addr(uint64_t system_addr)
+{
+	return rat_get_local_addr(system_addr);
 }
 
 void *rat_get_local_addr(uint64_t system_addr)

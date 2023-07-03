@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <zephyr/drivers/rat/rat.h>
+#include <zephyr/drivers/mm/rat/rat.h>
 

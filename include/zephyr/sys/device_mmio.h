@@ -38,7 +38,7 @@
 #endif
 
 #if defined(CONFIG_REGION_ADDRESS_TRANSLATION)
-#include <zephyr/drivers/rat/rat.h>
+#include <zephyr/drivers/mm/rat/rat.h>
 #endif
 
 #ifndef _ASMLANGUAGE
@@ -106,7 +106,7 @@ static inline void device_map(mm_reg_t *virt_addr, uintptr_t phys_addr,
 	ARG_UNUSED(size);
 	ARG_UNUSED(flags);
 #ifdef CONFIG_REGION_ADDRESS_TRANSLATION
-	*virt_addr = (mm_reg_t *) rat_get_local_addr((uint64_t) phys_addr);
+	*virt_addr = (mm_reg_t *) z_get_local_addr((uint64_t) phys_addr);
 #else
 	*virt_addr = phys_addr;
 #endif /* CONFIG_REGION_ADDRESS_TRANSLATION */

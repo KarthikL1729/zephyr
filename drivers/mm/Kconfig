@@ -45,3 +45,5 @@ config MM_DRV_INTEL_ADSP_TLB
 	  Intel Audio DSP hardware.
 
 endif # MM_DRV
+
+source "drivers/mm/rat/Kconfig"
