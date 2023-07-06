@@ -5,8 +5,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <zephyr/drivers/mm/rat/rat.h>
+#include <zephyr/drivers/mm/system_mm.h>
+#include <zephyr/drivers/mm/rat.h>
 #include <zephyr/sys/__assert.h>
+#include <string.h>
 
 address_trans_params translate_config;
 
@@ -68,11 +70,6 @@ void RAT_deinit(void)
 {
 }
 
-void *z_get_local_addr(uint64_t system_addr)
-{
-	return rat_get_local_addr(system_addr);
-}
-
 void *rat_get_local_addr(uint64_t system_addr)
 {
 	uint32_t found, regionId;
@@ -82,7 +79,6 @@ void *rat_get_local_addr(uint64_t system_addr)
 		 "Exceeding maximum number of regions");
 
 	found = 0;
-	uint32_t x = translate_config.num_regions;
 
 	for (regionId = 0; regionId < translate_config.num_regions; regionId++) {
 		uint64_t start_addr, end_addr;
@@ -116,4 +112,16 @@ void *rat_get_local_addr(uint64_t system_addr)
 		local_addr = (void *)system_addr;
 	}
 	return local_addr;
+}
+
+int sys_mm_drv_page_phys_get(void *virt, uintptr_t *phys)
+{
+	if (virt == NULL) {
+		return -EINVAL;
+	}
+	*phys = rat_get_local_addr((uint64_t)virt);
+	if (phys == NULL) {
+		return -EFAULT;
+	}
+	return 0;
 }

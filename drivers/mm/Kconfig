@@ -44,6 +44,22 @@ config MM_DRV_INTEL_ADSP_TLB
 	  Driver for the translation lookup buffer on
 	  Intel Audio DSP hardware.
 
-endif # MM_DRV
+config EXTERNAL_ADDRESS_TRANSLATION
+	bool "Support for external address translation modules if necessary"
+	help
+	  This config is intended to support an external address
+	  translation module if required for an SoC. Extends the
+	  MMIO API with the z_get_local_addr() function.
 
-source "drivers/mm/rat/Kconfig"
+if EXTERNAL_ADDRESS_TRANSLATION
+
+config TI_RAT
+	bool "Texas Instruments RAT module"
+	depends on EXTERNAL_ADDRESS_TRANSLATION
+	help
+	  Enables Region based address translation
+	  support functions specific to TI SoCs.
+
+endif # EXTERNAL_ADDRESS_TRANSLATION
+
+endif # MM_DRV

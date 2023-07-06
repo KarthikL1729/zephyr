@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#ifndef ZEPHYR_INCLUDE_RAT_TI_AM62X_M4_H_
-#define ZEPHYR_INCLUDE_RAT_TI_AM62X_M4_H_
+#ifndef ZEPHYR_INCLUDE_RAT_H_
+#define ZEPHYR_INCLUDE_RAT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -93,8 +93,6 @@ void address_trans_init(address_trans_params *params);
 void RAT_init(void *region_config, uint64_t rat_base_addr, uint8_t translate_regions);
 void RAT_deinit(void);
 void *rat_get_local_addr(uint64_t system_addr);
-void *z_get_local_addr(uint64_t system_addr);
-			/* Generic abstraction function to override weakly defined function */
 
 /** @} */
 
@@ -102,5 +100,5 @@ void *z_get_local_addr(uint64_t system_addr);
 }
 #endif
 
-#endif /* ZEPHYR_INCLUDE_RAT_TI_AM62X_M4_H_ */
+#endif /* ZEPHYR_INCLUDE_RAT_H_ */
 
