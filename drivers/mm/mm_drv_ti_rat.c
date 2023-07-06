@@ -70,10 +70,15 @@ void RAT_deinit(void)
 {
 }
 
-void *rat_get_local_addr(uint64_t system_addr)
+int sys_mm_drv_page_phys_get(void *virt, uintptr_t *phys)
 {
+	if (virt == NULL) {
+		return -EINVAL;
+	}
+	uint64_t pa = ((uint64_t) (virt));
+	uintptr_t *va = phys;
+
 	uint32_t found, regionId;
-	void *local_addr;
 
 	__ASSERT(translate_config.num_regions < address_trans_MAX_REGIONS,
 		 "Exceeding maximum number of regions");
@@ -95,7 +100,7 @@ void *rat_get_local_addr(uint64_t system_addr)
 		end_addr = start_addr + size_mask;
 
 		/* see if input address falls in this region */
-		if (system_addr >= start_addr && system_addr <= end_addr) {
+		if (pa >= start_addr && pa <= end_addr) {
 			/* yes, input address falls in this region, break from loop */
 			found = 1;
 			break;
@@ -104,23 +109,15 @@ void *rat_get_local_addr(uint64_t system_addr)
 	if (found) {
 		/* translate input address to output address */
 		uint32_t offset =
-			system_addr - translate_config.region_config[regionId].system_addr;
+			pa - translate_config.region_config[regionId].system_addr;
 
-		local_addr = (void *)(translate_config.region_config[regionId].local_addr + offset);
+		*va = (void *)(translate_config.region_config[regionId].local_addr + offset);
 	} else {
 		/* no mapping found, set output = input with 32b truncation */
-		local_addr = (void *)system_addr;
+		*va = (void *)pa;
 	}
-	return local_addr;
-}
 
-int sys_mm_drv_page_phys_get(void *virt, uintptr_t *phys)
-{
-	if (virt == NULL) {
-		return -EINVAL;
-	}
-	*phys = rat_get_local_addr((uint64_t)virt);
-	if (phys == NULL) {
+	if (va == NULL) {
 		return -EFAULT;
 	}
 	return 0;
