@@ -43,7 +43,7 @@ address_trans_region_config region_config[ADDR_TRANSLATE_REGIONS] = {
 static int am62x_m4_init(void)
 {
 	NMI_INIT();
-	RAT_init(&region_config, ADDR_TRANSLATE_RAT_BASE_ADDR, ADDR_TRANSLATE_REGIONS);
+	mm_drv_ti_rat_init(&region_config, ADDR_TRANSLATE_RAT_BASE_ADDR, ADDR_TRANSLATE_REGIONS);
 	return 0;
 }
 

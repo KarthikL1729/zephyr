@@ -89,9 +89,7 @@ typedef struct address_trans_params_s {
 							 */
 } address_trans_params;
 
-void address_trans_init(address_trans_params *params);
-void RAT_init(void *region_config, uint64_t rat_base_addr, uint8_t translate_regions);
-void RAT_deinit(void);
+void mm_drv_ti_rat_init(void *region_config, uint64_t rat_base_addr, uint8_t translate_regions);
 
 /** @} */
 

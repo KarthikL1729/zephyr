@@ -8,12 +8,11 @@
 #include <zephyr/drivers/mm/system_mm.h>
 #include <zephyr/drivers/mm/rat.h>
 #include <zephyr/sys/__assert.h>
-#include <string.h>
 
 address_trans_params translate_config;
 
-void address_trans_set_region(uint32_t rat_base_addr, uint16_t region_num, uint64_t system_addr,
-			      uint32_t local_addr, uint32_t size, uint32_t enable)
+static void address_trans_set_region(uint32_t rat_base_addr, uint16_t region_num,
+			uint64_t system_addr, uint32_t local_addr, uint32_t size, uint32_t enable)
 {
 	uint32_t system_addrL, system_addrH;
 
@@ -33,7 +32,7 @@ void address_trans_set_region(uint32_t rat_base_addr, uint16_t region_num, uint6
 	*RAT_CTRL(rat_base_addr, region_num) = ((enable & 0x1) << 31u) | (size & 0x3F);
 }
 
-void address_trans_init(address_trans_params *params)
+static void address_trans_init(address_trans_params *params)
 {
 	uint32_t i;
 
@@ -57,17 +56,13 @@ void address_trans_init(address_trans_params *params)
 	}
 }
 
-void RAT_init(void *region_config, uint64_t rat_base_addr, uint8_t translate_regions)
+void mm_drv_ti_rat_init(void *region_config, uint64_t rat_base_addr, uint8_t translate_regions)
 {
 	translate_config.num_regions = translate_regions;
 	translate_config.rat_base_addr = rat_base_addr;
 	translate_config.region_config = (address_trans_region_config *)region_config;
 
 	address_trans_init(&translate_config);
-}
-
-void RAT_deinit(void)
-{
 }
 
 int sys_mm_drv_page_phys_get(void *virt, uintptr_t *phys)
