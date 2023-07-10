@@ -26,7 +26,7 @@ extern "C" {
 /**
  * \brief Enum's to represent different possible region size for the address translate module
  */
-typedef enum address_trans_region_size_e {
+enum address_trans_region_size {
 	address_trans_region_size_1 = 0x0,
 	address_trans_region_size_2,
 	address_trans_region_size_4,
@@ -60,12 +60,12 @@ typedef enum address_trans_region_size_e {
 	address_trans_region_size_1G,
 	address_trans_region_size_2G,
 	address_trans_region_size_4G
-} address_trans_region_size;
+};
 
 /**
  * \brief Region config structure
  */
-typedef struct address_trans_region_config_ {
+struct address_trans_region_config {
 
 	uint64_t system_addr;	/* translated 48b system addr as seen by the SOC, MUST align to
 				 * region size
@@ -73,21 +73,21 @@ typedef struct address_trans_region_config_ {
 	uint32_t local_addr; /* start address as seen by the CPU, MUST align to region size */
 	uint32_t size;
 
-} address_trans_region_config;
+};
 
 /**
  * \brief Parameters for \ref address_trans_init
  */
-typedef struct address_trans_params_s {
+struct address_trans_params {
 
 	uint32_t num_regions;   /* Number of regions to configure */
 	uint32_t rat_base_addr; /* Base address of the RAT HW module */
-	address_trans_region_config *region_config;	/*
+	struct address_trans_region_config *region_config;	/*
 							 * Pointer to array of region config,
 							 * number of array element MUST be >=
 							 * num_regions.
 							 */
-} address_trans_params;
+};
 
 void mm_drv_ti_rat_init(void *region_config, uint64_t rat_base_addr, uint8_t translate_regions);
 

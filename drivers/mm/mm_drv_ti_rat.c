@@ -9,11 +9,15 @@
 #include <zephyr/drivers/mm/rat.h>
 #include <zephyr/sys/__assert.h>
 
-address_trans_params translate_config;
+struct address_trans_params translate_config;
 
-static void address_trans_set_region(uint32_t rat_base_addr, uint16_t region_num,
-			uint64_t system_addr, uint32_t local_addr, uint32_t size, uint32_t enable)
+static void address_trans_set_region(struct address_trans_params *addr_translate_config,
+			uint16_t region_num, uint32_t enable)
 {
+	uint32_t rat_base_addr = addr_translate_config->rat_base_addr;
+	uint64_t system_addr = addr_translate_config->region_config[region_num].system_addr;
+	uint32_t local_addr = addr_translate_config->region_config[region_num].local_addr;
+	uint32_t size = addr_translate_config->region_config[region_num].size;
 	uint32_t system_addrL, system_addrH;
 
 	if (size > address_trans_region_size_4G) {
@@ -23,16 +27,14 @@ static void address_trans_set_region(uint32_t rat_base_addr, uint16_t region_num
 	system_addrH = (uint32_t)((system_addr >> 32) & 0xFFFF);
 	local_addr = local_addr & ~((uint32_t)(((uint64_t)1 << size) - 1));
 
-	/* disable RAT region first */
-	*RAT_CTRL(rat_base_addr, region_num) = 0;
-	*RAT_BASE(rat_base_addr, region_num) = local_addr;
-	*RAT_TRANS_L(rat_base_addr, region_num) = system_addrL;
-	*RAT_TRANS_H(rat_base_addr, region_num) = system_addrH;
-	/* set size and enable the region */
-	*RAT_CTRL(rat_base_addr, region_num) = ((enable & 0x1) << 31u) | (size & 0x3F);
+	sys_write32(0, RAT_CTRL(rat_base_addr, region_num));
+	sys_write32(local_addr, RAT_BASE(rat_base_addr, region_num));
+	sys_write32(system_addrL, RAT_TRANS_L(rat_base_addr, region_num));
+	sys_write32(system_addrH, RAT_TRANS_H(rat_base_addr, region_num));
+	sys_write32(((enable & 0x1) << 31u) | (size & 0x3F), RAT_CTRL(rat_base_addr, region_num));
 }
 
-static void address_trans_init(address_trans_params *params)
+static void address_trans_init(struct address_trans_params *params)
 {
 	uint32_t i;
 
@@ -49,10 +51,7 @@ static void address_trans_init(address_trans_params *params)
 			 "RAT region config cannot be NULL");
 
 		/* enable regions setup by user */
-		address_trans_set_region(translate_config.rat_base_addr, i,
-					 translate_config.region_config[i].system_addr,
-					 translate_config.region_config[i].local_addr,
-					 translate_config.region_config[i].size, 1);
+		address_trans_set_region(&translate_config, i, 1);
 	}
 }
 
@@ -60,7 +59,7 @@ void mm_drv_ti_rat_init(void *region_config, uint64_t rat_base_addr, uint8_t tra
 {
 	translate_config.num_regions = translate_regions;
 	translate_config.rat_base_addr = rat_base_addr;
-	translate_config.region_config = (address_trans_region_config *)region_config;
+	translate_config.region_config = (struct address_trans_region_config *)region_config;
 
 	address_trans_init(&translate_config);
 }

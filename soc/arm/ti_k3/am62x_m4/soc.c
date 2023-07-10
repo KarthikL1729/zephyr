@@ -13,7 +13,7 @@
 #define ADDR_TRANSLATE_RAT_BASE_ADDR		(0x044200000u)
 #define ADDR_TRANSLATE_REGIONS			(4u)
 
-address_trans_region_config region_config[ADDR_TRANSLATE_REGIONS] = {
+struct address_trans_region_config region_config[ADDR_TRANSLATE_REGIONS] = {
 	{
 		.system_addr = 0x0u,
 		.local_addr = 0x80000000u,
