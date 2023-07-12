@@ -35,6 +35,9 @@ if SERIAL
 config UART_NS16550
 	default y
 
+config UART_INTERRUPT_DRIVEN
+  default n
+
 choice UART_NS16550_VARIANT
 	default UART_NS16550_VARIANT_NS16750
 endchoice
